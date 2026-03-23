@@ -183,9 +183,6 @@ function renderTournaments() {
                         ${registration.rating ? `<p class="text-gray-300">Rating: ${registration.rating}</p>` : ''}
                         <p class="text-green-400">✓ Payment confirmed</p>
                     </div>
-                    <button data-id="${tournament.id}" class="tournament-unregister-btn mt-2 w-full py-2 rounded-lg font-semibold transition bg-red-600 hover:bg-red-700 text-white">
-                        Unregister
-                    </button>
                 ` : `
                     <button data-id="${tournament.id}" class="tournament-register-btn mt-4 w-full py-2 rounded-lg font-semibold transition bg-amber-400 hover:bg-amber-500 text-[#0F172A]">
                         Register
@@ -196,27 +193,13 @@ function renderTournaments() {
         tournamentsContainer.appendChild(card);
     });
 
-    // Register buttons
+    // Add event listeners to register buttons
     document.querySelectorAll('.tournament-register-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
             const tournamentId = parseInt(btn.dataset.id);
             pendingTournamentId = tournamentId;
             const modal = document.getElementById('tournamentModal');
             modal.classList.remove('hidden');
-        });
-    });
-
-    // Unregister buttons
-    document.querySelectorAll('.tournament-unregister-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const tournamentId = parseInt(btn.dataset.id);
-            const registration = registeredTournaments.find(reg => reg.id === tournamentId);
-            const tournament = tournamentsData.find(t => t.id === tournamentId);
-            if (registration && confirm(`Are you sure you want to unregister from "${tournament?.name || 'this tournament'}"?`)) {
-                registeredTournaments = registeredTournaments.filter(reg => reg.id !== tournamentId);
-                saveRegisteredTournaments();
-                renderTournaments();
-            }
         });
     });
 
@@ -390,7 +373,7 @@ function renderFullCoaches() {
     });
 }
 
-// Modal handlers
+// Modal handlers (same as before)
 const modal = document.getElementById('bookingModal');
 const modalCancel = document.getElementById('modalCancel');
 const modalConfirm = document.getElementById('modalConfirm');
