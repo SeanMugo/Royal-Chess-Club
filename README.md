@@ -59,7 +59,7 @@ Royal Chess Club is a multi‑page web platform designed to help chess enthusias
 
 ## 📁 Project Deployment
 
-- **Live URL:** 
+- **Live URL:** https://seanmugo.github.io/Royal-Chess-Club/GIT 
 - **Repository:** https://github.com/SeanMugo/Royal-Chess-Club
 
 ---
