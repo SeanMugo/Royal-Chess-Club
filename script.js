@@ -89,7 +89,7 @@ const BOOKED_SLOTS_KEY = "chessClub_bookedSlots";
 
 // ---------- Load saved data ----------
 let members = JSON.parse(localStorage.getItem(MEMBERS_KEY)) || [];
-let registeredTournaments = JSON.parse(localStorage.getItem(REGISTERED_TOURNAMENTS_KEY)) || []; // array of objects { id, name, rating, paymentConfirmed }
+let registeredTournaments = JSON.parse(localStorage.getItem(REGISTERED_TOURNAMENTS_KEY)) || [];
 let bookedSlotIds = JSON.parse(localStorage.getItem(BOOKED_SLOTS_KEY)) || [];
 
 // Apply booked slots to coaches data
@@ -202,7 +202,7 @@ function renderTournaments() {
             const tournamentId = parseInt(btn.dataset.id);
             pendingTournamentId = tournamentId;
             const modal = document.getElementById('tournamentModal');
-            modal.classList.remove('hidden');
+            if (modal) modal.classList.remove('hidden');
         });
     });
 
@@ -302,7 +302,7 @@ function startAllCountdowns() {
     }, 1000);
 }
 
-// ---------- TRAINING SESSIONS (with unbook) ----------
+// ---------- TRAINING SESSIONS ----------
 const coachesContainer = document.getElementById('coachesContainer');
 let pendingBooking = null;
 
