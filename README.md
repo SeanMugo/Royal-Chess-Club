@@ -1,12 +1,12 @@
 # Royal Chess Club – Chess Learning & Community Platform
 
-A modern, fully responsive website for a chess club offering membership registration, tournament sign‑ups with live countdown timers, and one‑on‑one training sessions with elite coaches. Built with HTML, Tailwind CSS, and vanilla JavaScript.
+A modern, fully responsive website for a chess club offering membership registration, tournament sign‑ups with live countdown timers, one‑on‑one training sessions with elite coaches, and an admin panel to manage content. Built with HTML, Tailwind CSS, and vanilla JavaScript.
 
 ---
 
 ## 📖 Overview
 
-Royal Chess Club is a multi‑page web platform designed to help chess enthusiasts join a vibrant community, compete in tournaments, and learn from Grandmasters. The site combines clean design with interactive JavaScript features, storing user data locally for a seamless experience.
+Royal Chess Club is a multi‑page web platform designed to help chess enthusiasts join a vibrant community, compete in tournaments, and learn from Grandmasters. The site combines clean design with interactive JavaScript features, storing user data locally for a seamless experience. An admin panel allows the site owner to manage tournaments, coaches, and members without touching the code.
 
 ---
 
@@ -14,10 +14,12 @@ Royal Chess Club is a multi‑page web platform designed to help chess enthusias
 
 | Page | Description |
 |------|-------------|
-| **Home** (`index.html`) | Hero section with "Master the Game" headline, philosophy, upcoming tournaments preview (3 events), featured coaches (2 cards), call‑to‑action, and footer |
-| **Join** (`register.html`) | Member registration form with name, email, optional rating; displays list of registered members (stored in localStorage) |
-| **Tournaments** (`tournaments.html`) | List of 6 upcoming tournaments (2026 dates). Users can register for any tournament via a modal (name, rating, payment confirmation). Once registered, a live countdown timer appears. Users can also unregister. |
-| **Training** (`training.html`) | Coach cards (5 elite coaches) each with bio, contact details, available time slots. Users can book a session via a confirmation modal; bookings persist across page reloads. Booked slots can be unbooked. |
+| **Home** (`index.html`) | Hero section with "Master the Game" headline, philosophy, upcoming tournaments preview (3 events), featured coaches (2 cards), call‑to‑action, and footer. |
+| **Join** (`register.html`) | Member registration form with name, email, optional rating (0‑3000). After registration, a toast confirms success. A link to the Members page is provided. |
+| **Members** (`members.html`) | Displays all registered members in a table (name, email, rating, join date). Data is loaded from `localStorage`. |
+| **Tournaments** (`tournaments.html`) | List of 6 upcoming tournaments (2026 dates). Users can register via a modal (name, rating, payment confirmation). Rating is validated (0‑3000) and automatically assigns a category (U1400, U1600, U1800, Open). Once registered, a live countdown timer appears. Users can unregister (toast confirmation). |
+| **Training** (`training.html`) | Coach cards (5 elite coaches) each with bio, contact details, available time slots. Users can book a session via a confirmation modal; bookings persist across page reloads. Booked slots can be unbooked (toast confirmation). |
+| **Admin** (`admin.html`) | Password‑protected panel (default password: `admin123`) to manage tournaments (add, edit, delete), coaches (add, edit, delete), and members (delete). All changes are saved to `localStorage` and immediately reflected on the front pages. |
 
 ---
 
@@ -25,7 +27,7 @@ Royal Chess Club is a multi‑page web platform designed to help chess enthusias
 
 - **HTML5** – Semantic structure
 - **Tailwind CSS** – Utility‑first styling and responsiveness
-- **JavaScript (Vanilla)** – DOM manipulation, localStorage, countdown timers, modal interactions
+- **JavaScript (Vanilla)** – DOM manipulation, localStorage, countdown timers, modal interactions, custom toasts
 - **Font Awesome** – Icons for visual enhancement
 
 ---
@@ -47,11 +49,14 @@ Royal Chess Club is a multi‑page web platform designed to help chess enthusias
 - **Fully responsive** – Optimised for mobile, tablet, and desktop
 - **Sticky navigation** with active page highlighting
 - **Mobile hamburger menu** using pure CSS (checkbox hack)
-- **Member registration** with localStorage persistence
-- **Tournament registration** – modal with name, rating, and payment confirmation; live countdown timers for registered tournaments
-- **Unregister from tournaments** – users can cancel their registration at any time
+- **Member registration** – simple form with optional rating; stored in `localStorage`
+- **Members page** – view all registered members in a clean table
+- **Tournament registration** – modal with name, rating (0‑3000), payment confirmation; live category preview (U1400, U1600, U1800, Open); live countdown timer for registered tournaments
+- **Unregister from tournaments** – immediate action with a toast confirmation
 - **Training booking** – choose a coach, select a time slot, confirm via modal; booked slots become unavailable
-- **Unbook training sessions** – users can cancel their bookings with a single click
+- **Unbook training sessions** – cancel bookings with a toast confirmation
+- **Toast notifications** – replace all browser alerts with smooth, styled notifications (success, error)
+- **Admin panel** – password‑protected dashboard to manage tournaments, coaches, and members; all changes sync with front pages via `localStorage`
 - **Consistent design language** – cards, buttons, borders, and spacing unified across all pages
 - **No external dependencies** – all JavaScript is custom, no frameworks
 
@@ -59,22 +64,23 @@ Royal Chess Club is a multi‑page web platform designed to help chess enthusias
 
 ## 📁 Project Deployment
 
-- **Live URL:** https://seanmugo.github.io/Royal-Chess-Club/GIT 
-- **Repository:** https://github.com/SeanMugo/Royal-Chess-Club
+- **Live URL:** [https://seanmugo.github.io/Royal-Chess-Club/](https://seanmugo.github.io/Royal-Chess-Club/)
+- **Repository:** [https://github.com/SeanMugo/Royal-Chess-Club](https://github.com/SeanMugo/Royal-Chess-Club)
 
 ---
 
 ## 🚀 Future Improvements
 
 - Replace placeholder coach images with actual photos
-- Add a backend (e.g., Node.js + MongoDB) to replace localStorage
-- Implement email notifications for tournament reminders
+- Add a backend (e.g., Node.js + MongoDB) to replace `localStorage`
+- Implement email notifications for tournament reminders and booking confirmations
 - Integrate a real chess board for interactive puzzles
 - Add a user dashboard showing registered tournaments and upcoming bookings
+- Add more advanced coach slot management in the admin panel
 
 ---
 
 ## 👤 Credits
 
 - Coach quotes and names are fictional but inspired by real Grandmasters and chess educators.
-- Built as a showcase project for front‑end skills (HTML, Tailwind, JavaScript).# Royal-Chess-Club
+- Built as a showcase project for front‑end skills (HTML, Tailwind, JavaScript).
