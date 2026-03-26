@@ -82,17 +82,14 @@ let coaches = [
     }
 ];
 
-// ---------- LocalStorage keys ----------
 const MEMBERS_KEY = "chessClub_members";
 const REGISTERED_TOURNAMENTS_KEY = "chessClub_registeredTournaments";
 const BOOKED_SLOTS_KEY = "chessClub_bookedSlots";
 
-// ---------- Load saved data ----------
 let members = JSON.parse(localStorage.getItem(MEMBERS_KEY)) || [];
 let registeredTournaments = JSON.parse(localStorage.getItem(REGISTERED_TOURNAMENTS_KEY)) || [];
 let bookedSlotIds = JSON.parse(localStorage.getItem(BOOKED_SLOTS_KEY)) || [];
 
-// Apply booked slots to coaches data
 function applyBookedSlots() {
     coaches.forEach(coach => {
         coach.slots.forEach(slot => {
@@ -114,7 +111,42 @@ function saveMembers() {
     localStorage.setItem(MEMBERS_KEY, JSON.stringify(members));
 }
 
-// ---------- MEMBER REGISTRATION ----------
+// Toast notification
+function showToast(message, type = 'success') {
+    const toast = document.getElementById('toast');
+    const toastMessage = document.getElementById('toastMessage');
+    if (!toast) return;
+
+    toastMessage.textContent = message;
+    toast.classList.remove('hidden', 'bg-red-600', 'bg-green-600', 'bg-blue-600');
+    
+    if (type === 'success') {
+        toast.classList.add('bg-green-600');
+    } else if (type === 'error') {
+        toast.classList.add('bg-red-600');
+    } else {
+        toast.classList.add('bg-[#1E293B]', 'border', 'border-amber-400');
+    }
+    
+    toast.classList.remove('opacity-0', 'translate-y-2');
+    toast.classList.add('opacity-100', 'translate-y-0');
+    
+    setTimeout(() => {
+        toast.classList.add('opacity-0', 'translate-y-2');
+        setTimeout(() => {
+            toast.classList.add('hidden');
+        }, 300);
+    }, 3000);
+}
+
+function getRatingCategory(rating) {
+    if (!rating) return "Open";
+    if (rating <= 1400) return "U1400";
+    if (rating <= 1600) return "U1600";
+    if (rating <= 1800) return "U1800";
+    return "Open";
+}
+
 const memberForm = document.getElementById('memberForm');
 const memberMessage = document.getElementById('memberMessage');
 const memberListContent = document.getElementById('memberListContent');
@@ -152,13 +184,13 @@ if (memberForm) {
         memberMessage.classList.remove("text-red-400");
         memberMessage.classList.add("text-green-400");
         displayMembers();
+        showToast(`Welcome, ${name}!`, 'success');
 
         setTimeout(() => { memberMessage.textContent = ""; }, 3000);
     });
     displayMembers();
 }
 
-// ---------- TOURNAMENTS ----------
 const tournamentsContainer = document.getElementById('tournamentsList');
 let pendingTournamentId = null;
 
@@ -168,6 +200,7 @@ function renderTournaments() {
     tournamentsData.forEach(tournament => {
         const registration = registeredTournaments.find(reg => reg.id === tournament.id);
         const isRegistered = !!registration;
+        const category = registration ? getRatingCategory(registration.rating) : '';
         const card = document.createElement('div');
         card.className = "bg-[#1E293B] border border-[#334155] rounded-xl overflow-hidden hover:border-amber-400 transition-all duration-300";
         card.innerHTML = `
@@ -180,7 +213,8 @@ function renderTournaments() {
                 ${isRegistered ? `
                     <div class="mt-4 p-3 bg-[#0F172A] rounded-lg text-sm">
                         <p class="text-gray-300">Registered as: <span class="text-white">${registration.name}</span></p>
-                        ${registration.rating ? `<p class="text-gray-300">Rating: ${registration.rating}</p>` : ''}
+                        <p class="text-gray-300">Rating: ${registration.rating || 'N/A'}</p>
+                        <p class="text-gray-300">Category: <span class="text-amber-400">${category}</span></p>
                         <p class="text-green-400">✓ Payment confirmed</p>
                     </div>
                     <button data-id="${tournament.id}" class="tournament-unregister-btn mt-2 w-full py-2 rounded-lg font-semibold transition bg-red-600 hover:bg-red-700 text-white">
@@ -196,7 +230,6 @@ function renderTournaments() {
         tournamentsContainer.appendChild(card);
     });
 
-    // Register buttons
     document.querySelectorAll('.tournament-register-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
             const tournamentId = parseInt(btn.dataset.id);
@@ -206,16 +239,16 @@ function renderTournaments() {
         });
     });
 
-    // Unregister buttons
     document.querySelectorAll('.tournament-unregister-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
             const tournamentId = parseInt(btn.dataset.id);
             const registration = registeredTournaments.find(reg => reg.id === tournamentId);
             const tournament = tournamentsData.find(t => t.id === tournamentId);
-            if (registration && confirm(`Are you sure you want to unregister from "${tournament?.name || 'this tournament'}"?`)) {
+            if (registration) {
                 registeredTournaments = registeredTournaments.filter(reg => reg.id !== tournamentId);
                 saveRegisteredTournaments();
                 renderTournaments();
+                showToast(`Successfully unregistered from ${tournament.name}`, 'success');
             }
         });
     });
@@ -223,7 +256,6 @@ function renderTournaments() {
     startAllCountdowns();
 }
 
-// Tournament Modal Handling
 const tournamentModal = document.getElementById('tournamentModal');
 const tournamentRegisterForm = document.getElementById('tournamentRegisterForm');
 const cancelTournamentReg = document.getElementById('cancelTournamentReg');
@@ -237,11 +269,15 @@ if (tournamentModal) {
     tournamentRegisterForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const name = document.getElementById('tournamentName').value.trim();
-        const rating = document.getElementById('tournamentRating').value;
+        const rating = parseInt(document.getElementById('tournamentRating').value);
         const paymentConfirmed = document.getElementById('paymentConfirmed').checked;
 
         if (!name) {
             alert("Please enter your name.");
+            return;
+        }
+        if (isNaN(rating) || rating < 0 || rating > 3000) {
+            alert("Please enter a valid rating between 0 and 3000.");
             return;
         }
         if (!paymentConfirmed) {
@@ -255,17 +291,32 @@ if (tournamentModal) {
                 registeredTournaments.push({
                     id: pendingTournamentId,
                     name: name,
-                    rating: rating || null,
+                    rating: rating,
                     paymentConfirmed: true
                 });
                 saveRegisteredTournaments();
                 renderTournaments();
+                const tournament = tournamentsData.find(t => t.id === pendingTournamentId);
+                showToast(`Successfully registered for ${tournament.name}!`, 'success');
             }
         }
         tournamentModal.classList.add('hidden');
         pendingTournamentId = null;
         tournamentRegisterForm.reset();
     });
+
+    const ratingInput = document.getElementById('tournamentRating');
+    const categoryPreview = document.getElementById('ratingCategoryPreview');
+    if (ratingInput && categoryPreview) {
+        ratingInput.addEventListener('input', () => {
+            const val = parseInt(ratingInput.value);
+            if (!isNaN(val) && val >= 0 && val <= 3000) {
+                categoryPreview.textContent = `Category: ${getRatingCategory(val)}`;
+            } else {
+                categoryPreview.textContent = 'Category: Open (invalid rating)';
+            }
+        });
+    }
 }
 
 function updateCountdown(tournamentId, tournamentDate) {
@@ -302,7 +353,6 @@ function startAllCountdowns() {
     }, 1000);
 }
 
-// ---------- TRAINING SESSIONS ----------
 const coachesContainer = document.getElementById('coachesContainer');
 let pendingBooking = null;
 
@@ -350,7 +400,6 @@ function renderFullCoaches() {
         coachesContainer.appendChild(coachCard);
     });
 
-    // Book buttons
     document.querySelectorAll('.book-slot-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
             const coachId = parseInt(btn.dataset.coachId);
@@ -370,7 +419,6 @@ function renderFullCoaches() {
         });
     });
 
-    // Unbook buttons
     document.querySelectorAll('.unbook-slot-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
             const coachId = parseInt(btn.dataset.coachId);
@@ -378,19 +426,17 @@ function renderFullCoaches() {
             const coach = coaches.find(c => c.id === coachId);
             const slot = coach.slots.find(s => s.slotId === slotId);
             if (slot && slot.booked) {
-                if (confirm(`Cancel booking for ${coach.name} on ${slot.date} at ${slot.time}?`)) {
-                    slot.booked = false;
-                    const index = bookedSlotIds.indexOf(slotId);
-                    if (index !== -1) bookedSlotIds.splice(index, 1);
-                    saveBookedSlots();
-                    renderFullCoaches();
-                }
+                slot.booked = false;
+                const index = bookedSlotIds.indexOf(slotId);
+                if (index !== -1) bookedSlotIds.splice(index, 1);
+                saveBookedSlots();
+                renderFullCoaches();
+                showToast(`Booking cancelled with ${coach.name} on ${slot.date} at ${slot.time}`, 'success');
             }
         });
     });
 }
 
-// Modal handlers
 const modal = document.getElementById('bookingModal');
 const modalCancel = document.getElementById('modalCancel');
 const modalConfirm = document.getElementById('modalConfirm');
@@ -404,12 +450,14 @@ if (modal) {
     modalCancel.addEventListener('click', closeModal);
     modalConfirm.addEventListener('click', () => {
         if (pendingBooking) {
-            const { slotId, slot } = pendingBooking;
+            const { coachId, slotId, slot } = pendingBooking;
             if (!slot.booked) {
                 slot.booked = true;
                 bookedSlotIds.push(slotId);
                 saveBookedSlots();
                 renderFullCoaches();
+                const coach = coaches.find(c => c.id === coachId);
+                showToast(`Booking confirmed with ${coach.name} on ${slot.date} at ${slot.time}`, 'success');
             }
             closeModal();
         }
@@ -420,7 +468,6 @@ if (modal) {
     });
 }
 
-// Initialize
 document.addEventListener('DOMContentLoaded', () => {
     renderTournaments();
     renderFullCoaches();
