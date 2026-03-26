@@ -111,7 +111,6 @@ function saveMembers() {
     localStorage.setItem(MEMBERS_KEY, JSON.stringify(members));
 }
 
-// Toast notification
 function showToast(message, type = 'success') {
     const toast = document.getElementById('toast');
     const toastMessage = document.getElementById('toastMessage');
@@ -267,43 +266,43 @@ if (tournamentModal) {
     });
 
     tournamentRegisterForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const name = document.getElementById('tournamentName').value.trim();
-        const rating = parseInt(document.getElementById('tournamentRating').value);
-        const paymentConfirmed = document.getElementById('paymentConfirmed').checked;
+    e.preventDefault();
+    const name = document.getElementById('tournamentName').value.trim();
+    const rating = parseInt(document.getElementById('tournamentRating').value);
+    const paymentConfirmed = document.getElementById('paymentConfirmed').checked;
 
-        if (!name) {
-            alert("Please enter your name.");
-            return;
-        }
-        if (isNaN(rating) || rating < 0 || rating > 3000) {
-            alert("Please enter a valid rating between 0 and 3000.");
-            return;
-        }
-        if (!paymentConfirmed) {
-            alert("Please confirm payment to complete registration.");
-            return;
-        }
+    if (!name) {
+        showToast("Please enter your name.", 'error');
+        return;
+    }
+    if (isNaN(rating) || rating < 0 || rating > 3000) {
+        showToast("Please enter a valid rating between 0 and 3000.", 'error');
+        return;
+    }
+    if (!paymentConfirmed) {
+        showToast("Please confirm payment to complete registration.", 'error');
+        return;
+    }
 
-        if (pendingTournamentId !== null) {
-            const existing = registeredTournaments.find(reg => reg.id === pendingTournamentId);
-            if (!existing) {
-                registeredTournaments.push({
-                    id: pendingTournamentId,
-                    name: name,
-                    rating: rating,
-                    paymentConfirmed: true
-                });
-                saveRegisteredTournaments();
-                renderTournaments();
-                const tournament = tournamentsData.find(t => t.id === pendingTournamentId);
-                showToast(`Successfully registered for ${tournament.name}!`, 'success');
-            }
+    if (pendingTournamentId !== null) {
+        const existing = registeredTournaments.find(reg => reg.id === pendingTournamentId);
+        if (!existing) {
+            registeredTournaments.push({
+                id: pendingTournamentId,
+                name: name,
+                rating: rating,
+                paymentConfirmed: true
+            });
+            saveRegisteredTournaments();
+            renderTournaments();
+            const tournament = tournamentsData.find(t => t.id === pendingTournamentId);
+            showToast(`Successfully registered for ${tournament.name}!`, 'success');
         }
-        tournamentModal.classList.add('hidden');
-        pendingTournamentId = null;
-        tournamentRegisterForm.reset();
-    });
+    }
+    tournamentModal.classList.add('hidden');
+    pendingTournamentId = null;
+    tournamentRegisterForm.reset();
+});
 
     const ratingInput = document.getElementById('tournamentRating');
     const categoryPreview = document.getElementById('ratingCategoryPreview');
