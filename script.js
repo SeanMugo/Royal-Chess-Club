@@ -318,6 +318,7 @@ if (tournamentModal) {
     }
 }
 
+
 function updateCountdown(tournamentId, tournamentDate) {
     const countdownElement = document.getElementById(`countdown-${tournamentId}`);
     if (!countdownElement) return;

@@ -1,164 +1,309 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Members | Royal Chess Club</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
     <style>
-        #menu-toggle:checked ~ #mobile-menu { display: block !important; }
-        .chess-pattern {
-            background-image: radial-gradient(circle at 2px 2px, rgba(251,191,36,0.15) 1px, transparent 1px);
-            background-size: 24px 24px;
-        }
+      #menu-toggle:checked ~ #mobile-menu {
+        display: block !important;
+      }
+      .chess-pattern {
+        background-image: radial-gradient(
+          circle at 2px 2px,
+          rgba(251, 191, 36, 0.15) 1px,
+          transparent 1px
+        );
+        background-size: 24px 24px;
+      }
     </style>
-</head>
-<body class="bg-[#0F172A] text-gray-100 font-sans">
-
+  </head>
+  <body class="bg-[#0F172A] text-gray-100 font-sans">
     <!-- Navigation (same as other pages, with Members link) -->
-    <input type="checkbox" id="menu-toggle" class="hidden">
-    <nav class="flex items-center justify-between flex-wrap bg-[#0F172A]/90 backdrop-blur-md py-4 lg:px-12 sticky top-0 border-b border-[#334155] z-20">
-        <div class="flex justify-between lg:w-auto w-full lg:border-b-0 pl-6 pr-2 border-solid border-b-2 border-[#334155] pb-5 lg:pb-0">
-            <div class="flex items-center flex-shrink-0 mr-16">
-                <a href="index.html" class="font-semibold text-xl tracking-tight text-amber-400 hover:text-white transition-colors duration-300">♟️ Royal Chess Club</a>
-            </div>
-            <div class="block lg:hidden">
-                <label for="menu-toggle" class="flex items-center px-3 py-2 border-2 rounded text-amber-400 border-amber-400 hover:text-white hover:border-white cursor-pointer">
-                    <svg class="fill-current h-3 w-3" viewBox="0 0 20 20"><path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"/></svg>
-                </label>
-            </div>
+    <input type="checkbox" id="menu-toggle" class="hidden" />
+    <nav
+      class="flex items-center justify-between flex-wrap bg-[#0F172A]/90 backdrop-blur-md py-4 lg:px-12 sticky top-0 border-b border-[#334155] z-20"
+    >
+      <div
+        class="flex justify-between lg:w-auto w-full lg:border-b-0 pl-6 pr-2 border-solid border-b-2 border-[#334155] pb-5 lg:pb-0"
+      >
+        <div class="flex items-center flex-shrink-0 mr-16">
+          <a
+            href="index.html"
+            class="font-semibold text-xl tracking-tight text-amber-400 hover:text-white transition-colors duration-300"
+            >♟️ Royal Chess Club</a
+          >
         </div>
-        <div class="hidden lg:flex items-center space-x-8 pr-6">
-            <a href="index.html" class="text-gray-300 hover:text-amber-400 transition-colors duration-300 text-sm tracking-wide">Home</a>
-            <a href="register.html" class="text-gray-300 hover:text-amber-400 transition-colors duration-300 text-sm tracking-wide">Join</a>
-            <a href="members.html" class="text-amber-400 transition-colors duration-300 text-sm tracking-wide">Members</a>
-            <a href="tournaments.html" class="text-gray-300 hover:text-amber-400 transition-colors duration-300 text-sm tracking-wide">Tournaments</a>
-            <a href="training.html" class="text-gray-300 hover:text-amber-400 transition-colors duration-300 text-sm tracking-wide">Training</a>
+        <div class="block lg:hidden">
+          <label
+            for="menu-toggle"
+            class="flex items-center px-3 py-2 border-2 rounded text-amber-400 border-amber-400 hover:text-white hover:border-white cursor-pointer"
+          >
+            <svg class="fill-current h-3 w-3" viewBox="0 0 20 20">
+              <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
+            </svg>
+          </label>
         </div>
+      </div>
+      <div class="hidden lg:flex items-center space-x-8 pr-6">
+        <a
+          href="index.html"
+          class="text-gray-300 hover:text-amber-400 transition-colors duration-300 text-sm tracking-wide"
+          >Home</a
+        >
+        <a
+          href="members.html"
+          class="text-gray-300 hover:text-amber-400 transition-colors duration-300 text-sm tracking-wide"
+          >Members</a
+        >
+        <a
+          href="tournaments.html"
+          class="text-gray-300 hover:text-amber-400 transition-colors duration-300 text-sm tracking-wide"
+          >Tournaments</a
+        >
+        <a
+          href="training.html"
+          class="text-gray-300 hover:text-amber-400 transition-colors duration-300 text-sm tracking-wide"
+          >Training</a
+        >
+        <span class="text-[#334155]">|</span>
+        <a
+          href="register.html"
+          class="text-amber-400 hover:text-white transition-colors duration-300 text-sm tracking-wide border border-amber-400 hover:border-white px-4 py-2 rounded"
+          >Join Now</a
+        >
+      </div>
     </nav>
-    <div id="mobile-menu" class="hidden lg:hidden bg-[#0F172A] border-t border-[#334155] py-4">
-        <a href="index.html" class="block py-3 px-6 text-gray-300 hover:text-amber-400 transition-colors duration-300 text-sm tracking-wide">Home</a>
-        <a href="register.html" class="block py-3 px-6 text-gray-300 hover:text-amber-400 transition-colors duration-300 text-sm tracking-wide">Join</a>
-        <a href="members.html" class="block py-3 px-6 text-amber-400 transition-colors duration-300 text-sm tracking-wide">Members</a>
-        <a href="tournaments.html" class="block py-3 px-6 text-gray-300 hover:text-amber-400 transition-colors duration-300 text-sm tracking-wide">Tournaments</a>
-        <a href="training.html" class="block py-3 px-6 text-gray-300 hover:text-amber-400 transition-colors duration-300 text-sm tracking-wide">Training</a>
+    <div
+      id="mobile-menu"
+      class="hidden lg:hidden bg-[#0F172A] border-t border-[#334155] py-4"
+    >
+      <a
+        href="index.html"
+        class="block py-3 px-6 text-gray-300 hover:text-amber-400 transition-colors duration-300 text-sm tracking-wide"
+        >Home</a
+      >
+      <a
+        href="members.html"
+        class="block py-3 px-6 text-gray-300 hover:text-amber-400 transition-colors duration-300 text-sm tracking-wide"
+        >Members</a
+      >
+      <a
+        href="tournaments.html"
+        class="block py-3 px-6 text-gray-300 hover:text-amber-400 transition-colors duration-300 text-sm tracking-wide"
+        >Tournaments</a
+      >
+      <a
+        href="training.html"
+        class="block py-3 px-6 text-gray-300 hover:text-amber-400 transition-colors duration-300 text-sm tracking-wide"
+        >Training</a
+      >
+      <a
+        href="register.html"
+        class="block py-3 px-6 text-amber-400 hover:text-white transition-colors duration-300 text-sm tracking-wide mt-2 border-t border-[#334155] pt-4"
+        >Join Now</a
+      >
     </div>
 
     <!-- Hero -->
-    <div class="relative min-h-[50vh] flex items-center justify-center overflow-hidden chess-pattern">
-        <div class="absolute inset-0 bg-gradient-to-b from-[#0F172A] via-[#0F172A]/90 to-[#0F172A]/70"></div>
-        <div class="container mx-auto px-4 lg:px-8 relative z-10 text-center">
-            <div class="inline-block px-3 py-1 bg-amber-400/20 border border-amber-400/40 rounded-full text-amber-400 text-xs tracking-wider mb-6">
-                OUR COMMUNITY
-            </div>
-            <h1 class="text-5xl md:text-7xl font-bold text-white leading-tight mb-6">
-                Meet Our Members
-            </h1>
-            <p class="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-                A growing community of chess enthusiasts from all levels.
-            </p>
+    <div
+      class="relative min-h-[50vh] flex items-center justify-center overflow-hidden chess-pattern"
+    >
+      <div
+        class="absolute inset-0 bg-gradient-to-b from-[#0F172A] via-[#0F172A]/90 to-[#0F172A]/70"
+      ></div>
+      <div class="container mx-auto px-4 lg:px-8 relative z-10 text-center">
+        <div
+          class="inline-block px-3 py-1 bg-amber-400/20 border border-amber-400/40 rounded-full text-amber-400 text-xs tracking-wider mb-6"
+        >
+          OUR COMMUNITY
         </div>
+        <h1
+          class="text-5xl md:text-7xl font-bold text-white leading-tight mb-6"
+        >
+          Meet Our Members
+        </h1>
+        <p class="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+          A growing community of chess enthusiasts from all levels.
+        </p>
+      </div>
     </div>
 
     <!-- Member List -->
     <div class="py-16">
-        <div class="container mx-auto px-6">
-            <div class="bg-[#1E293B] border border-[#334155] rounded-xl overflow-hidden">
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left">
-                        <thead class="bg-[#0F172A] border-b border-[#334155]">
-                            <tr>
-                                <th class="px-6 py-4 text-amber-400 font-semibold">Name</th>
-                                <th class="px-6 py-4 text-amber-400 font-semibold">Email</th>
-                                <th class="px-6 py-4 text-amber-400 font-semibold">Rating</th>
-                                <th class="px-6 py-4 text-amber-400 font-semibold">Joined</th>
-                            </tr>
-                        </thead>
-                        <tbody id="membersTableBody">
-                            <tr><td colspan="4" class="px-6 py-8 text-center text-gray-400">Loading members...</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="text-center mt-8">
-                <a href="register.html" class="inline-block text-amber-400 border border-amber-400 px-6 py-2 rounded hover:bg-amber-400 hover:text-[#0F172A] transition">Become a Member →</a>
-            </div>
+      <div class="container mx-auto px-6">
+        <div
+          class="bg-[#1E293B] border border-[#334155] rounded-xl overflow-hidden"
+        >
+          <div class="overflow-x-auto">
+            <table class="w-full text-left">
+              <thead class="bg-[#0F172A] border-b border-[#334155]">
+                <tr>
+                  <th class="px-6 py-4 text-amber-400 font-semibold">Name</th>
+                  <th class="px-6 py-4 text-amber-400 font-semibold">Email</th>
+                  <th class="px-6 py-4 text-amber-400 font-semibold">Rating</th>
+                  <th class="px-6 py-4 text-amber-400 font-semibold">Joined</th>
+                </tr>
+              </thead>
+              <tbody id="membersTableBody">
+                <tr>
+                  <td colspan="4" class="px-6 py-8 text-center text-gray-400">
+                    Loading members...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
+        <div class="text-center mt-8">
+          <a
+            href="register.html"
+            class="inline-block text-amber-400 border border-amber-400 px-6 py-2 rounded hover:bg-amber-400 hover:text-[#0F172A] transition"
+            >Become a Member →</a
+          >
+        </div>
+      </div>
     </div>
 
     <footer class="bg-[#0F172A] border-t border-[#334155] py-16 px-4">
-        <div class="max-w-7xl mx-auto">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-                <div>
-                    <span class="text-2xl font-light text-amber-400 tracking-tight">♟️ Royal Chess Club</span>
-                    <p class="text-gray-400 text-sm mt-4 leading-relaxed">Where champions are made.</p>
-                    <div class="flex space-x-4 mt-6">
-                        <a href="#" class="text-gray-400 hover:text-amber-400 transition"><i class="fa fa-instagram text-lg"></i></a>
-                        <a href="#" class="text-gray-400 hover:text-amber-400 transition"><i class="fa fa-twitter text-lg"></i></a>
-                        <a href="#" class="text-gray-400 hover:text-amber-400 transition"><i class="fa fa-facebook text-lg"></i></a>
-                    </div>
-                </div>
-                <div>
-                    <p class="text-white text-sm tracking-wide mb-4">Navigate</p>
-                    <ul class="space-y-2">
-                        <li><a href="index.html" class="text-gray-400 hover:text-amber-400 transition text-sm">Home</a></li>
-                        <li><a href="register.html" class="text-gray-400 hover:text-amber-400 transition text-sm">Join</a></li>
-                        <li><a href="members.html" class="text-gray-400 hover:text-amber-400 transition text-sm">Members</a></li>
-                        <li><a href="tournaments.html" class="text-gray-400 hover:text-amber-400 transition text-sm">Tournaments</a></li>
-                        <li><a href="training.html" class="text-gray-400 hover:text-amber-400 transition text-sm">Training</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <p class="text-white text-sm tracking-wide mb-4">Contact</p>
-                    <ul class="space-y-2">
-                        <li class="text-gray-400 text-sm">info@royalchess.club</li>
-                        <li class="text-gray-400 text-sm">+254 700 123 456</li>
-                        <li class="text-gray-400 text-sm">Nairobi, Kenya</li>
-                    </ul>
-                </div>
-                <div>
-                    <p class="text-white text-sm tracking-wide mb-4">Join Us</p>
-                    <a href="register.html" class="text-amber-400 border border-amber-400 px-6 py-2 inline-block hover:bg-amber-400 hover:text-[#0F172A] transition text-sm">Sign Up</a>
-                </div>
+      <div class="max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+          <div>
+            <span class="text-2xl font-light text-amber-400 tracking-tight"
+              >♟️ Royal Chess Club</span
+            >
+            <p class="text-gray-400 text-sm mt-4 leading-relaxed">
+              Where champions are made.
+            </p>
+            <div class="flex space-x-4 mt-6">
+              <a href="#" class="text-gray-400 hover:text-amber-400 transition"
+                ><i class="fa fa-instagram text-lg"></i
+              ></a>
+              <a href="#" class="text-gray-400 hover:text-amber-400 transition"
+                ><i class="fa fa-twitter text-lg"></i
+              ></a>
+              <a href="#" class="text-gray-400 hover:text-amber-400 transition"
+                ><i class="fa fa-facebook text-lg"></i
+              ></a>
             </div>
-            <div class="border-t border-[#334155] mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
-                <p class="text-gray-400 text-xs">© 2025 Royal Chess Club. All rights reserved.</p>
-                <div class="flex space-x-6 mt-4 md:mt-0">
-                    <a href="#" class="text-gray-400 hover:text-amber-400 transition text-xs">Privacy</a>
-                    <a href="#" class="text-gray-400 hover:text-amber-400 transition text-xs">Terms</a>
-                </div>
-            </div>
+          </div>
+          <div>
+            <p class="text-white text-sm tracking-wide mb-4">Navigate</p>
+            <ul class="space-y-2">
+              <li>
+                <a
+                  href="index.html"
+                  class="text-gray-400 hover:text-amber-400 transition text-sm"
+                  >Home</a
+                >
+              </li>
+              <li>
+                <a
+                  href="register.html"
+                  class="text-gray-400 hover:text-amber-400 transition text-sm"
+                  >Join</a
+                >
+              </li>
+              <li>
+                <a
+                  href="members.html"
+                  class="text-gray-400 hover:text-amber-400 transition text-sm"
+                  >Members</a
+                >
+              </li>
+              <li>
+                <a
+                  href="tournaments.html"
+                  class="text-gray-400 hover:text-amber-400 transition text-sm"
+                  >Tournaments</a
+                >
+              </li>
+              <li>
+                <a
+                  href="training.html"
+                  class="text-gray-400 hover:text-amber-400 transition text-sm"
+                  >Training</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <p class="text-white text-sm tracking-wide mb-4">Contact</p>
+            <ul class="space-y-2">
+              <li class="text-gray-400 text-sm">info@royalchess.club</li>
+              <li class="text-gray-400 text-sm">+254 700 123 456</li>
+              <li class="text-gray-400 text-sm">Nairobi, Kenya</li>
+            </ul>
+          </div>
+          <div>
+            <p class="text-white text-sm tracking-wide mb-4">Join Us</p>
+            <a
+              href="register.html"
+              class="text-amber-400 border border-amber-400 px-6 py-2 inline-block hover:bg-amber-400 hover:text-[#0F172A] transition text-sm"
+              >Sign Up</a
+            >
+          </div>
         </div>
+        <div
+          class="border-t border-[#334155] mt-12 pt-8 flex flex-col md:flex-row justify-between items-center"
+        >
+          <p class="text-gray-400 text-xs">
+            © 2025 Royal Chess Club. All rights reserved.
+          </p>
+          <div class="flex space-x-6 mt-4 md:mt-0">
+            <a
+              href="#"
+              class="text-gray-400 hover:text-amber-400 transition text-xs"
+              >Privacy</a
+            >
+            <a
+              href="#"
+              class="text-gray-400 hover:text-amber-400 transition text-xs"
+              >Terms</a
+            >
+          </div>
+        </div>
+      </div>
     </footer>
 
     <script>
-        function loadMembers() {
-            const members = JSON.parse(localStorage.getItem('chessClub_members')) || [];
-            const tbody = document.getElementById('membersTableBody');
-            if (members.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="4" class="px-6 py-8 text-center text-gray-400">No members yet. Be the first to join!</td></tr>';
-                return;
-            }
-            tbody.innerHTML = members.map(m => `
+      function loadMembers() {
+        const members =
+          JSON.parse(localStorage.getItem("chessClub_members")) || [];
+        const tbody = document.getElementById("membersTableBody");
+        if (members.length === 0) {
+          tbody.innerHTML =
+            '<tr><td colspan="4" class="px-6 py-8 text-center text-gray-400">No members yet. Be the first to join!</td></tr>';
+          return;
+        }
+        tbody.innerHTML = members
+          .map(
+            (m) => `
                 <tr class="border-b border-[#334155] hover:bg-[#0F172A]/50 transition">
                     <td class="px-6 py-4">${escapeHtml(m.name)}</td>
                     <td class="px-6 py-4">${escapeHtml(m.email)}</td>
-                    <td class="px-6 py-4">${m.rating || 'N/A'}</td>
+                    <td class="px-6 py-4">${m.rating || "N/A"}</td>
                     <td class="px-6 py-4">${new Date(m.registeredAt).toLocaleDateString()}</td>
                 </tr>
-            `).join('');
-        }
-        function escapeHtml(str) {
-            if (!str) return '';
-            return str.replace(/[&<>]/g, function(m) {
-                if (m === '&') return '&amp;';
-                if (m === '<') return '&lt;';
-                if (m === '>') return '&gt;';
-                return m;
-            });
-        }
-        loadMembers();
+            `,
+          )
+          .join("");
+      }
+      function escapeHtml(str) {
+        if (!str) return "";
+        return str.replace(/[&<>]/g, function (m) {
+          if (m === "&") return "&amp;";
+          if (m === "<") return "&lt;";
+          if (m === ">") return "&gt;";
+          return m;
+        });
+      }
+      loadMembers();
     </script>
-</body>
+  </body>
 </html>
