@@ -1,86 +1,100 @@
-const tournamentsData = [
-    { id: 1, name: "Spring Open", date: "2026-04-15T10:00:00", location: "City Hall", prize: "$500" },
-    { id: 2, name: "Rapid Championship", date: "2026-05-20T14:00:00", location: "Chess Center", prize: "$300" },
-    { id: 3, name: "Blitz Battle", date: "2026-06-10T18:00:00", location: "Online", prize: "$200" },
-    { id: 4, name: "Summer Classic", date: "2026-07-25T09:00:00", location: "Grand Hotel", prize: "$1000" },
-    { id: 5, name: "Autumn Invitational", date: "2026-09-12T11:00:00", location: "Convention Hall", prize: "$750" },
-    { id: 6, name: "Winter Masters", date: "2026-12-05T10:00:00", location: "Royal Ballroom", prize: "$1500" }
-];
+const TOURNAMENTS_KEY = "chessClub_tournaments";
+const COACHES_KEY = "chessClub_coaches";
 
-let coaches = [
-    {
-        id: 1,
-        name: "GM Pia Cramling",
-        title: "Grandmaster & World-Class Competitor",
-        expertise: "Endgames & Strategy",
-        image: "https://placehold.co/400x300/1E293B/FFFFFF?text=GM+Pia",
-        quote: "I've competed at the highest level for over 40 years. My students learn the resilience and precision needed to win.",
-        phone: "+254 712 345 678",
-        email: "piacramling@gmail.com",
-        slots: [
-            { date: "2026-06-10", time: "10:00", booked: false, slotId: "c1_s1" },
-            { date: "2026-06-10", time: "14:00", booked: false, slotId: "c1_s2" },
-            { date: "2026-06-12", time: "16:00", booked: false, slotId: "c1_s3" }
-        ]
-    },
-    {
-        id: 2,
-        name: "IM Levy Rozman",
-        title: "International Master & Chess Educator",
-        expertise: "Openings & Middle Game",
-        image: "https://placehold.co/400x300/1E293B/FFFFFF?text=IM+Levy",
-        quote: "I've helped millions improve their chess online. Now let me help you – personally – to break through your plateau.",
-        phone: "+254 723 456 789",
-        email: "levyrozman@mail.com",
-        slots: [
-            { date: "2026-06-11", time: "11:00", booked: false, slotId: "c2_s1" },
-            { date: "2026-06-11", time: "15:00", booked: false, slotId: "c2_s2" },
-            { date: "2026-06-13", time: "09:00", booked: false, slotId: "c2_s3" }
-        ]
-    },
-    {
-        id: 3,
-        name: "WGM Sarah Wambui",
-        title: "Women's Grandmaster & Tactics Expert",
-        expertise: "Tactics & Visualization",
-        image: "https://placehold.co/400x300/1E293B/FFFFFF?text=WGM+Sarah",
-        quote: "Tactics flow from a harmonious position. I'll help you see combinations before they appear.",
-        phone: "+254 734 567 890",
-        email: "sarah.w@royalchess.club",
-        slots: [
-            { date: "2026-06-14", time: "13:00", booked: false, slotId: "c3_s1" },
-            { date: "2026-06-15", time: "10:00", booked: false, slotId: "c3_s2" }
-        ]
-    },
-    {
-        id: 4,
-        name: "FM David Omondi",
-        title: "FIDE Master & Junior Development Coach",
-        expertise: "Positional Play & Calculation",
-        image: "https://placehold.co/400x300/1E293B/FFFFFF?text=FM+David",
-        quote: "I specialize in turning talented juniors into titled players. Let's build your foundation together.",
-        phone: "+254 745 678 901",
-        email: "david.o@royalchess.club",
-        slots: [
-            { date: "2026-06-16", time: "09:00", booked: false, slotId: "c4_s1" },
-            { date: "2026-06-17", time: "14:00", booked: false, slotId: "c4_s2" }
-        ]
-    },
-    {
-        id: 5,
-        name: "GM Viswanathan Anand",
-        title: "Former World Champion & Legend",
-        expertise: "All-round Excellence",
-        image: "https://placehold.co/400x300/1E293B/FFFFFF?text=GM+Anand",
-        quote: "Chess is a game of infinite possibilities. I'm here to help you discover your own path to mastery.",
-        phone: "+254 756 789 012",
-        email: "anand@royalchess.club",
-        slots: [
-            { date: "2026-06-18", time: "15:00", booked: false, slotId: "c5_s1" },
-            { date: "2026-06-19", time: "11:00", booked: false, slotId: "c5_s2" }
-        ]
-    }
-];
+function loadTournaments() {
+    let stored = localStorage.getItem(TOURNAMENTS_KEY);
+    if (stored) return JSON.parse(stored);
+    return [
+        { id: 1, name: "Spring Open", date: "2026-04-15T10:00:00", location: "City Hall", prize: "$500" },
+        { id: 2, name: "Rapid Championship", date: "2026-05-20T14:00:00", location: "Chess Center", prize: "$300" },
+        { id: 3, name: "Blitz Battle", date: "2026-06-10T18:00:00", location: "Online", prize: "$200" },
+        { id: 4, name: "Summer Classic", date: "2026-07-25T09:00:00", location: "Grand Hotel", prize: "$1000" },
+        { id: 5, name: "Autumn Invitational", date: "2026-09-12T11:00:00", location: "Convention Hall", prize: "$750" },
+        { id: 6, name: "Winter Masters", date: "2026-12-05T10:00:00", location: "Royal Ballroom", prize: "$1500" }
+    ];
+}
+
+function loadCoaches() {
+    let stored = localStorage.getItem(COACHES_KEY);
+    if (stored) return JSON.parse(stored);
+    return [
+        {
+            id: 1,
+            name: "GM Pia Cramling",
+            title: "Grandmaster & World-Class Competitor",
+            expertise: "Endgames & Strategy",
+            image: "https://placehold.co/400x300/1E293B/FFFFFF?text=GM+Pia",
+            quote: "I've competed at the highest level for over 40 years. My students learn the resilience and precision needed to win.",
+            phone: "+254 712 345 678",
+            email: "piacramling@gmail.com",
+            slots: [
+                { date: "2026-06-10", time: "10:00", booked: false, slotId: "c1_s1" },
+                { date: "2026-06-10", time: "14:00", booked: false, slotId: "c1_s2" },
+                { date: "2026-06-12", time: "16:00", booked: false, slotId: "c1_s3" }
+            ]
+        },
+        {
+            id: 2,
+            name: "IM Levy Rozman",
+            title: "International Master & Chess Educator",
+            expertise: "Openings & Middle Game",
+            image: "https://placehold.co/400x300/1E293B/FFFFFF?text=IM+Levy",
+            quote: "I've helped millions improve their chess online. Now let me help you – personally – to break through your plateau.",
+            phone: "+254 723 456 789",
+            email: "levyrozman@mail.com",
+            slots: [
+                { date: "2026-06-11", time: "11:00", booked: false, slotId: "c2_s1" },
+                { date: "2026-06-11", time: "15:00", booked: false, slotId: "c2_s2" },
+                { date: "2026-06-13", time: "09:00", booked: false, slotId: "c2_s3" }
+            ]
+        },
+        {
+            id: 3,
+            name: "WGM Sarah Wambui",
+            title: "Women's Grandmaster & Tactics Expert",
+            expertise: "Tactics & Visualization",
+            image: "https://placehold.co/400x300/1E293B/FFFFFF?text=WGM+Sarah",
+            quote: "Tactics flow from a harmonious position. I'll help you see combinations before they appear.",
+            phone: "+254 734 567 890",
+            email: "sarah.w@royalchess.club",
+            slots: [
+                { date: "2026-06-14", time: "13:00", booked: false, slotId: "c3_s1" },
+                { date: "2026-06-15", time: "10:00", booked: false, slotId: "c3_s2" }
+            ]
+        },
+        {
+            id: 4,
+            name: "FM David Omondi",
+            title: "FIDE Master & Junior Development Coach",
+            expertise: "Positional Play & Calculation",
+            image: "https://placehold.co/400x300/1E293B/FFFFFF?text=FM+David",
+            quote: "I specialize in turning talented juniors into titled players. Let's build your foundation together.",
+            phone: "+254 745 678 901",
+            email: "david.o@royalchess.club",
+            slots: [
+                { date: "2026-06-16", time: "09:00", booked: false, slotId: "c4_s1" },
+                { date: "2026-06-17", time: "14:00", booked: false, slotId: "c4_s2" }
+            ]
+        },
+        {
+            id: 5,
+            name: "GM Viswanathan Anand",
+            title: "Former World Champion & Legend",
+            expertise: "All-round Excellence",
+            image: "https://placehold.co/400x300/1E293B/FFFFFF?text=GM+Anand",
+            quote: "Chess is a game of infinite possibilities. I'm here to help you discover your own path to mastery.",
+            phone: "+254 756 789 012",
+            email: "anand@royalchess.club",
+            slots: [
+                { date: "2026-06-18", time: "15:00", booked: false, slotId: "c5_s1" },
+                { date: "2026-06-19", time: "11:00", booked: false, slotId: "c5_s2" }
+            ]
+        }
+    ];
+}
+
+let tournamentsData = loadTournaments();
+let coaches = loadCoaches();
 
 const MEMBERS_KEY = "chessClub_members";
 const REGISTERED_TOURNAMENTS_KEY = "chessClub_registeredTournaments";
@@ -266,43 +280,43 @@ if (tournamentModal) {
     });
 
     tournamentRegisterForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const name = document.getElementById('tournamentName').value.trim();
-    const rating = parseInt(document.getElementById('tournamentRating').value);
-    const paymentConfirmed = document.getElementById('paymentConfirmed').checked;
+        e.preventDefault();
+        const name = document.getElementById('tournamentName').value.trim();
+        const rating = parseInt(document.getElementById('tournamentRating').value);
+        const paymentConfirmed = document.getElementById('paymentConfirmed').checked;
 
-    if (!name) {
-        showToast("Please enter your name.", 'error');
-        return;
-    }
-    if (isNaN(rating) || rating < 0 || rating > 3000) {
-        showToast("Please enter a valid rating between 0 and 3000.", 'error');
-        return;
-    }
-    if (!paymentConfirmed) {
-        showToast("Please confirm payment to complete registration.", 'error');
-        return;
-    }
-
-    if (pendingTournamentId !== null) {
-        const existing = registeredTournaments.find(reg => reg.id === pendingTournamentId);
-        if (!existing) {
-            registeredTournaments.push({
-                id: pendingTournamentId,
-                name: name,
-                rating: rating,
-                paymentConfirmed: true
-            });
-            saveRegisteredTournaments();
-            renderTournaments();
-            const tournament = tournamentsData.find(t => t.id === pendingTournamentId);
-            showToast(`Successfully registered for ${tournament.name}!`, 'success');
+        if (!name) {
+            showToast("Please enter your name.", 'error');
+            return;
         }
-    }
-    tournamentModal.classList.add('hidden');
-    pendingTournamentId = null;
-    tournamentRegisterForm.reset();
-});
+        if (isNaN(rating) || rating < 0 || rating > 3000) {
+            showToast("Please enter a valid rating between 0 and 3000.", 'error');
+            return;
+        }
+        if (!paymentConfirmed) {
+            showToast("Please confirm payment to complete registration.", 'error');
+            return;
+        }
+
+        if (pendingTournamentId !== null) {
+            const existing = registeredTournaments.find(reg => reg.id === pendingTournamentId);
+            if (!existing) {
+                registeredTournaments.push({
+                    id: pendingTournamentId,
+                    name: name,
+                    rating: rating,
+                    paymentConfirmed: true
+                });
+                saveRegisteredTournaments();
+                renderTournaments();
+                const tournament = tournamentsData.find(t => t.id === pendingTournamentId);
+                showToast(`Successfully registered for ${tournament.name}!`, 'success');
+            }
+        }
+        tournamentModal.classList.add('hidden');
+        pendingTournamentId = null;
+        tournamentRegisterForm.reset();
+    });
 
     const ratingInput = document.getElementById('tournamentRating');
     const categoryPreview = document.getElementById('ratingCategoryPreview');
@@ -317,7 +331,6 @@ if (tournamentModal) {
         });
     }
 }
-
 
 function updateCountdown(tournamentId, tournamentDate) {
     const countdownElement = document.getElementById(`countdown-${tournamentId}`);
