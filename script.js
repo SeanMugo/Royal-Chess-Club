@@ -1,9 +1,17 @@
+// ============================================================
+// 1. Storage Keys (like labels for the browser's pockets)
+// ============================================================
 const TOURNAMENTS_KEY = "chessClub_tournaments";
 const COACHES_KEY = "chessClub_coaches";
 
+// ============================================================
+// 2. Load Tournaments from localStorage or use defaults
+// ============================================================
 function loadTournaments() {
+    // Look in the browser's "tournaments" pocket
     let stored = localStorage.getItem(TOURNAMENTS_KEY);
-    if (stored) return JSON.parse(stored);
+    if (stored) return JSON.parse(stored); // If found, convert it back to an array
+    // Otherwise, return the default list of tournaments
     return [
         { id: 1, name: "Spring Open", date: "2026-04-15T10:00:00", location: "City Hall", prize: "$500" },
         { id: 2, name: "Rapid Championship", date: "2026-05-20T14:00:00", location: "Chess Center", prize: "$300" },
@@ -14,9 +22,13 @@ function loadTournaments() {
     ];
 }
 
+// ============================================================
+// 3. Load Coaches from localStorage or use defaults
+// ============================================================
 function loadCoaches() {
     let stored = localStorage.getItem(COACHES_KEY);
     if (stored) return JSON.parse(stored);
+    // Default coaches with all their details and time slots
     return [
         {
             id: 1,
@@ -93,17 +105,29 @@ function loadCoaches() {
     ];
 }
 
-let tournamentsData = loadTournaments();
-let coaches = loadCoaches();
+// ============================================================
+// 4. Global data variables (loaded once at page start)
+// ============================================================
+let tournamentsData = loadTournaments();   // All tournaments (from storage or default)
+let coaches = loadCoaches();               // All coaches (from storage or default)
 
+// ============================================================
+// 5. Other storage keys for members, registrations, and bookings
+// ============================================================
 const MEMBERS_KEY = "chessClub_members";
 const REGISTERED_TOURNAMENTS_KEY = "chessClub_registeredTournaments";
 const BOOKED_SLOTS_KEY = "chessClub_bookedSlots";
 
+// ============================================================
+// 6. Load saved data for members, registrations, and booked slots
+// ============================================================
 let members = JSON.parse(localStorage.getItem(MEMBERS_KEY)) || [];
 let registeredTournaments = JSON.parse(localStorage.getItem(REGISTERED_TOURNAMENTS_KEY)) || [];
 let bookedSlotIds = JSON.parse(localStorage.getItem(BOOKED_SLOTS_KEY)) || [];
 
+// ============================================================
+// 7. Mark slots as booked based on stored IDs
+// ============================================================
 function applyBookedSlots() {
     coaches.forEach(coach => {
         coach.slots.forEach(slot => {
@@ -111,8 +135,11 @@ function applyBookedSlots() {
         });
     });
 }
-applyBookedSlots();
+applyBookedSlots();   // Run it once at load
 
+// ============================================================
+// 8. Helper functions to save data back to localStorage
+// ============================================================
 function saveBookedSlots() {
     localStorage.setItem(BOOKED_SLOTS_KEY, JSON.stringify(bookedSlotIds));
 }
@@ -125,6 +152,9 @@ function saveMembers() {
     localStorage.setItem(MEMBERS_KEY, JSON.stringify(members));
 }
 
+// ============================================================
+// 9. Toast notifications (styled pop‑up messages)
+// ============================================================
 function showToast(message, type = 'success') {
     const toast = document.getElementById('toast');
     const toastMessage = document.getElementById('toastMessage');
@@ -152,6 +182,9 @@ function showToast(message, type = 'success') {
     }, 3000);
 }
 
+// ============================================================
+// 10. Rating category helper (U1400, U1600, U1800, Open)
+// ============================================================
 function getRatingCategory(rating) {
     if (!rating) return "Open";
     if (rating <= 1400) return "U1400";
@@ -160,10 +193,14 @@ function getRatingCategory(rating) {
     return "Open";
 }
 
+// ============================================================
+// 11. Member Registration (on register.html)
+// ============================================================
 const memberForm = document.getElementById('memberForm');
 const memberMessage = document.getElementById('memberMessage');
 const memberListContent = document.getElementById('memberListContent');
 
+// Show current members in the small list
 function displayMembers() {
     if (memberListContent) {
         if (members.length === 0) {
@@ -176,6 +213,7 @@ function displayMembers() {
     }
 }
 
+// When the join form is submitted
 if (memberForm) {
     memberForm.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -204,8 +242,11 @@ if (memberForm) {
     displayMembers();
 }
 
+// ============================================================
+// 12. Tournaments Page – Render all tournament cards
+// ============================================================
 const tournamentsContainer = document.getElementById('tournamentsList');
-let pendingTournamentId = null;
+let pendingTournamentId = null;   // Stores which tournament we're registering for
 
 function renderTournaments() {
     if (!tournamentsContainer) return;
@@ -243,6 +284,7 @@ function renderTournaments() {
         tournamentsContainer.appendChild(card);
     });
 
+    // Attach event listeners to all Register buttons
     document.querySelectorAll('.tournament-register-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
             const tournamentId = parseInt(btn.dataset.id);
@@ -252,6 +294,7 @@ function renderTournaments() {
         });
     });
 
+    // Attach event listeners to all Unregister buttons
     document.querySelectorAll('.tournament-unregister-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
             const tournamentId = parseInt(btn.dataset.id);
@@ -260,31 +303,37 @@ function renderTournaments() {
             if (registration) {
                 registeredTournaments = registeredTournaments.filter(reg => reg.id !== tournamentId);
                 saveRegisteredTournaments();
-                renderTournaments();
+                renderTournaments();            // Refresh the page to show unregistered state
                 showToast(`Successfully unregistered from ${tournament.name}`, 'success');
             }
         });
     });
 
-    startAllCountdowns();
+    startAllCountdowns();   // Start (or restart) the countdown timers for all registered tournaments
 }
 
+// ============================================================
+// 13. Tournament Registration Modal (pop‑up form)
+// ============================================================
 const tournamentModal = document.getElementById('tournamentModal');
 const tournamentRegisterForm = document.getElementById('tournamentRegisterForm');
 const cancelTournamentReg = document.getElementById('cancelTournamentReg');
 
 if (tournamentModal) {
+    // Cancel button closes the modal
     cancelTournamentReg.addEventListener('click', () => {
         tournamentModal.classList.add('hidden');
         pendingTournamentId = null;
     });
 
+    // Submit the registration form
     tournamentRegisterForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const name = document.getElementById('tournamentName').value.trim();
         const rating = parseInt(document.getElementById('tournamentRating').value);
         const paymentConfirmed = document.getElementById('paymentConfirmed').checked;
 
+        // Validation
         if (!name) {
             showToast("Please enter your name.", 'error');
             return;
@@ -298,6 +347,7 @@ if (tournamentModal) {
             return;
         }
 
+        // Save the registration
         if (pendingTournamentId !== null) {
             const existing = registeredTournaments.find(reg => reg.id === pendingTournamentId);
             if (!existing) {
@@ -308,7 +358,7 @@ if (tournamentModal) {
                     paymentConfirmed: true
                 });
                 saveRegisteredTournaments();
-                renderTournaments();
+                renderTournaments();   // Refresh to show new registration
                 const tournament = tournamentsData.find(t => t.id === pendingTournamentId);
                 showToast(`Successfully registered for ${tournament.name}!`, 'success');
             }
@@ -318,6 +368,7 @@ if (tournamentModal) {
         tournamentRegisterForm.reset();
     });
 
+    // Live rating category preview while typing
     const ratingInput = document.getElementById('tournamentRating');
     const categoryPreview = document.getElementById('ratingCategoryPreview');
     if (ratingInput && categoryPreview) {
@@ -332,6 +383,9 @@ if (tournamentModal) {
     }
 }
 
+// ============================================================
+// 14. Countdown timer functions
+// ============================================================
 function updateCountdown(tournamentId, tournamentDate) {
     const countdownElement = document.getElementById(`countdown-${tournamentId}`);
     if (!countdownElement) return;
@@ -366,8 +420,11 @@ function startAllCountdowns() {
     }, 1000);
 }
 
+// ============================================================
+// 15. Training Page – Render all coaches and their time slots
+// ============================================================
 const coachesContainer = document.getElementById('coachesContainer');
-let pendingBooking = null;
+let pendingBooking = null;   // Stores which slot we're about to book
 
 function renderFullCoaches() {
     if (!coachesContainer) return;
@@ -413,6 +470,7 @@ function renderFullCoaches() {
         coachesContainer.appendChild(coachCard);
     });
 
+    // Attach Book button listeners
     document.querySelectorAll('.book-slot-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
             const coachId = parseInt(btn.dataset.coachId);
@@ -432,6 +490,7 @@ function renderFullCoaches() {
         });
     });
 
+    // Attach Unbook button listeners
     document.querySelectorAll('.unbook-slot-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
             const coachId = parseInt(btn.dataset.coachId);
@@ -443,13 +502,16 @@ function renderFullCoaches() {
                 const index = bookedSlotIds.indexOf(slotId);
                 if (index !== -1) bookedSlotIds.splice(index, 1);
                 saveBookedSlots();
-                renderFullCoaches();
+                renderFullCoaches();   // Refresh to show unbooked state
                 showToast(`Booking cancelled with ${coach.name} on ${slot.date} at ${slot.time}`, 'success');
             }
         });
     });
 }
 
+// ============================================================
+// 16. Booking Modal (confirmation before booking)
+// ============================================================
 const modal = document.getElementById('bookingModal');
 const modalCancel = document.getElementById('modalCancel');
 const modalConfirm = document.getElementById('modalConfirm');
@@ -468,7 +530,7 @@ if (modal) {
                 slot.booked = true;
                 bookedSlotIds.push(slotId);
                 saveBookedSlots();
-                renderFullCoaches();
+                renderFullCoaches();   // Refresh to show booked state
                 const coach = coaches.find(c => c.id === coachId);
                 showToast(`Booking confirmed with ${coach.name} on ${slot.date} at ${slot.time}`, 'success');
             }
@@ -481,6 +543,9 @@ if (modal) {
     });
 }
 
+// ============================================================
+// 17. Start everything when the page loads
+// ============================================================
 document.addEventListener('DOMContentLoaded', () => {
     renderTournaments();
     renderFullCoaches();
